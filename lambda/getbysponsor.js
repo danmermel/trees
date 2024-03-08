@@ -29,7 +29,7 @@ const handler = async function (spec) {
     const req = {
       TableName: TABLE,
       KeyConditions: {
-        pk: { ComparisonOperator: 'EQ', AttributeValueList: [`tree#${spec.sponsor}`] }
+        pk: { ComparisonOperator: 'EQ', AttributeValueList: [`sponsor#${spec.sponsor}`] }
       }
     }
 

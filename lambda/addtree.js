@@ -30,9 +30,10 @@ const handler = async function (spec) {
   const g = geohash.encode(spec.lat, spec.long, 5)
 
   item = {
-    pk: `tree#${spec.sponsor}`,
-    sk: `#id#${spec.treeId}`,
-    treeid: spec.treeId,
+    pk: `sponsor#${spec.sponsor}`,
+    sk: `#treeId#${spec.treeId}`,
+    type: "tree",
+    treeId: spec.treeId,
     species: spec.species,
     locationDescription: spec.locationDescription,
     locationName: spec.locationName,
