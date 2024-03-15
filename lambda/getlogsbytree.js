@@ -16,20 +16,19 @@ const handler = async function (spec) {
   //console.log('spec is ', spec)
 
   // check data
-  if (!spec.sponsor) {
+  if (!spec.treeId) {
 
-    return { statusCode: 400, body: `{"ok": false, "message": "Missing sponsor parameter"}` }
+    return { statusCode: 400, body: `{"ok": false, "message": "Missing treeId parameter"}` }
 
   }
-
   
-  // get items by sponsor
+  // get logs by tree
 
   try {
     const req = {
       TableName: TABLE,
       KeyConditions: {
-        pk: { ComparisonOperator: 'EQ', AttributeValueList: [`sponsor#${spec.sponsor}`] }
+        pk: { ComparisonOperator: 'EQ', AttributeValueList: [`treeId#${spec.treeId}`] }
       }
     }
 
@@ -39,9 +38,7 @@ const handler = async function (spec) {
 
     body = {
       ok: true,
-      trees: response.Items.map((i) => {
-        return i
-      })
+      logs: response.Items
     }
     statusCode = 200
   } catch (e) {

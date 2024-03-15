@@ -1,5 +1,5 @@
 resource "aws_iam_role" "treesLambdaRole" {
-  name = "treesLambdaRole"
+  name = "treesLambdaRole-${terraform.workspace}"
 
   assume_role_policy = <<EOF
 {
@@ -21,7 +21,7 @@ EOF
 //add inline policy that allows writing to logs and invoking lambda functions
 
 resource "aws_iam_role_policy" "treesInlinePolicy" {
-  name = "rssInlinePolicy"
+  name = "rssInlinePolicy-${terraform.workspace}"
   role = aws_iam_role.treesLambdaRole.id
 
   policy = <<-EOF

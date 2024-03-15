@@ -11,7 +11,7 @@ const handler = async function (spec) {
   //   if (!spec.queryStringParameters || !spec.queryStringParameters.apikey || spec.queryStringParameters.apikey !== API_KEY) {
   //     return { statusCode: 401, body: '{"ok": false}' }
   //   }
-  spec = spec.queryStringParameters
+  spec = spec.queryStringParameters || {}
   console.log('spec is ', spec)
 
   // check data
