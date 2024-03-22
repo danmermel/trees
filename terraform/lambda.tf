@@ -7,189 +7,77 @@ data "archive_file" "lambda" {
 }
 
 
-resource "aws_lambda_function" "addTree" {
-  filename         = "../lambda.zip"
-  function_name    = "addtree-${terraform.workspace}"
+# addtree
+module "addTree" {
+  source           = "./modules/apicall"
+  filename         = data.archive_file.lambda.output_path
+  function_name    = "addtree"
   role             = aws_iam_role.treesLambdaRole.arn
-  handler          = "addtree.handler"
-  runtime          = "nodejs20.x"
-  timeout          = 60
   source_code_hash = data.archive_file.lambda.output_base64sha256
-  
-  environment {
-    variables = {
-      TABLE = aws_dynamodb_table.treesDb.name
-      #API_KEY = var.API_KEY
-    }
-  }
+  table = aws_dynamodb_table.treesDb.name
 }
 
-resource "aws_cloudwatch_log_group" "lambdaLGaddTree" {
-  name              = "/aws/lambda/${aws_lambda_function.addTree.function_name}"
-  retention_in_days = 7
-}
-
-resource "aws_lambda_function_url" "addTreeFunctionUrl" {
-  function_name      = aws_lambda_function.addTree.function_name
-  authorization_type = "NONE"
-  cors {
-    allow_credentials = true
-    allow_origins     = ["*"]
-    allow_methods     = ["*"]
-    max_age           = 86400
-  }
-}
 
 output "addTreeFunctionUrl" {
-  value = aws_lambda_function_url.addTreeFunctionUrl.function_url
+  value = module.addTree.url
 }
 
 
-resource "aws_lambda_function" "getBySponsor" {
-  filename         = "../lambda.zip"
-  function_name    = "getbysponsor-${terraform.workspace}"
+# getbysponsor
+module "getBySponsor" {
+  source           = "./modules/apicall"
+  filename         = data.archive_file.lambda.output_path
+  function_name    = "getbysponsor"
   role             = aws_iam_role.treesLambdaRole.arn
-  handler          = "getbysponsor.handler"
-  runtime          = "nodejs20.x"
-  timeout          = 60
   source_code_hash = data.archive_file.lambda.output_base64sha256
-  
-  environment {
-    variables = {
-      TABLE = aws_dynamodb_table.treesDb.name
-      #API_KEY = var.API_KEY
-    }
-  }
+  table = aws_dynamodb_table.treesDb.name
 }
 
-resource "aws_cloudwatch_log_group" "lambdaLGgetBySponsor" {
-  name              = "/aws/lambda/${aws_lambda_function.getBySponsor.function_name}"
-  retention_in_days = 7
-}
-
-resource "aws_lambda_function_url" "getBySponsorFunctionUrl" {
-  function_name      = aws_lambda_function.getBySponsor.function_name
-  authorization_type = "NONE"
-  cors {
-    allow_credentials = true
-    allow_origins     = ["*"]
-    allow_methods     = ["*"]
-    max_age           = 86400
-  }
-}
 
 output "getBySponsorFunctionUrl" {
-  value = aws_lambda_function_url.getBySponsorFunctionUrl.function_url
+  value = module.getBySponsor.url
 }
 
-resource "aws_lambda_function" "addLog" {
-  filename         = "../lambda.zip"
-  function_name    = "addlog-${terraform.workspace}"
+module "addLog" {
+  source           = "./modules/apicall"
+  filename         = data.archive_file.lambda.output_path
+  function_name    = "addlog"
   role             = aws_iam_role.treesLambdaRole.arn
-  handler          = "addlog.handler"
-  runtime          = "nodejs20.x"
-  timeout          = 60
   source_code_hash = data.archive_file.lambda.output_base64sha256
-  
-  environment {
-    variables = {
-      TABLE = aws_dynamodb_table.treesDb.name
-      #API_KEY = var.API_KEY
-    }
-  }
+  table = aws_dynamodb_table.treesDb.name
 }
 
-resource "aws_cloudwatch_log_group" "lambdaLGaddLog" {
-  name              = "/aws/lambda/${aws_lambda_function.addLog.function_name}"
-  retention_in_days = 7
-}
-
-resource "aws_lambda_function_url" "addLogFunctionUrl" {
-  function_name      = aws_lambda_function.addLog.function_name
-  authorization_type = "NONE"
-  cors {
-    allow_credentials = true
-    allow_origins     = ["*"]
-    allow_methods     = ["*"]
-    max_age           = 86400
-  }
-}
 
 output "addLogFunctionUrl" {
-  value = aws_lambda_function_url.addLogFunctionUrl.function_url
+  value = module.addLog.url
 }
 
-resource "aws_lambda_function" "getLogsByTree" {
-  filename         = "../lambda.zip"
-  function_name    = "getlogsbytree-${terraform.workspace}"
+
+module "getLogsByTree" {
+  source           = "./modules/apicall"
+  filename         = data.archive_file.lambda.output_path
+  function_name    = "getlogsbytree"
   role             = aws_iam_role.treesLambdaRole.arn
-  handler          = "getlogsbytree.handler"
-  runtime          = "nodejs20.x"
-  timeout          = 60
   source_code_hash = data.archive_file.lambda.output_base64sha256
-  
-  environment {
-    variables = {
-      TABLE = aws_dynamodb_table.treesDb.name
-      #API_KEY = var.API_KEY
-    }
-  }
+  table = aws_dynamodb_table.treesDb.name
 }
 
-resource "aws_cloudwatch_log_group" "lambdaLGgetLogsByTree" {
-  name              = "/aws/lambda/${aws_lambda_function.getLogsByTree.function_name}"
-  retention_in_days = 7
-}
-
-resource "aws_lambda_function_url" "getLogsByTreeFunctionUrl" {
-  function_name      = aws_lambda_function.getLogsByTree.function_name
-  authorization_type = "NONE"
-  cors {
-    allow_credentials = true
-    allow_origins     = ["*"]
-    allow_methods     = ["*"]
-    max_age           = 86400
-  }
-}
 
 output "getLogsByTreeFunctionUrl" {
-  value = aws_lambda_function_url.getLogsByTreeFunctionUrl.function_url
+  value = module.getLogsByTree.url
 }
 
 
-resource "aws_lambda_function" "getTree" {
-  filename         = "../lambda.zip"
-  function_name    = "gettree-${terraform.workspace}"
+module "getTree" {
+  source           = "./modules/apicall"
+  filename         = data.archive_file.lambda.output_path
+  function_name    = "getree"
   role             = aws_iam_role.treesLambdaRole.arn
-  handler          = "gettree.handler"
-  runtime          = "nodejs20.x"
-  timeout          = 60
   source_code_hash = data.archive_file.lambda.output_base64sha256
-  
-  environment {
-    variables = {
-      TABLE = aws_dynamodb_table.treesDb.name
-      #API_KEY = var.API_KEY
-    }
-  }
+  table = aws_dynamodb_table.treesDb.name
 }
 
-resource "aws_cloudwatch_log_group" "lambdaLGgetTree" {
-  name              = "/aws/lambda/${aws_lambda_function.getTree.function_name}"
-  retention_in_days = 7
-}
-
-resource "aws_lambda_function_url" "getTreeFunctionUrl" {
-  function_name      = aws_lambda_function.getTree.function_name
-  authorization_type = "NONE"
-  cors {
-    allow_credentials = true
-    allow_origins     = ["*"]
-    allow_methods     = ["*"]
-    max_age           = 86400
-  }
-}
 
 output "getTreeFunctionUrl" {
-  value = aws_lambda_function_url.getTreeFunctionUrl.function_url
+  value = module.getTree.url
 }
