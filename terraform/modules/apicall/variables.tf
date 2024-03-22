@@ -1,4 +1,4 @@
-variable "filename" {}
+
 variable "function_name" {}
 variable "role" {}
 variable "runtime" {
@@ -7,5 +7,7 @@ variable "runtime" {
 variable "timeout" {
   default = 60
 }
-variable "source_code_hash" {}
 variable "table" {}
+variable "layer" {
+  
+}

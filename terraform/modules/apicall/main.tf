@@ -1,11 +1,20 @@
+
+//zip up  js files for the pipeline
+data "archive_file" "lambda" {
+  type        = "zip"
+  source_file =  "../lambda/${var.function_name}.js"
+  output_path = "../lambda/${var.function_name}.zip"
+}
+
 resource "aws_lambda_function" "treesLambda" {
-  filename         = var.filename
+  filename         = data.archive_file.lambda.output_path
   function_name    = "${var.function_name}-${terraform.workspace}"
   role             = var.role
   handler          = "${var.function_name}.handler"
   runtime          = var.runtime
   timeout          = var.timeout
-  source_code_hash = var.source_code_hash //  data.archive_file.lambda.output_base64sha256
+  source_code_hash = data.archive_file.lambda.output_base64sha256
+  layers           = [var.layer]
   
   environment {
     variables = {
