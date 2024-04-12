@@ -19,7 +19,7 @@ resource "aws_lambda_function" "treesLambda" {
   environment {
     variables = {
       TABLE = var.table // aws_dynamodb_table.treesDb.name
-      #API_KEY = var.API_KEY
+      API_KEY = var.api_key
     }
   }
 }

@@ -8,6 +8,6 @@ variable "timeout" {
   default = 60
 }
 variable "table" {}
-variable "layer" {
-  
-}
+variable "layer" {}
+
+variable "api_key" {}

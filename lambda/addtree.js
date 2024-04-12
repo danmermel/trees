@@ -57,9 +57,9 @@ function encode(lat, lon, precision) {
 
 const handler = async function (spec) {
   // first check if the API KEY is correct
-  //   if (!spec.queryStringParameters || !spec.queryStringParameters.apikey || spec.queryStringParameters.apikey !== API_KEY) {
-  //     return { statusCode: 401, body: '{"ok": false}' }
-  //   }
+  if (!spec.queryStringParameters || !spec.queryStringParameters.apiKey || spec.queryStringParameters.apiKey !== API_KEY) {
+    return { statusCode: 401, body: '{"ok": false}' }
+  }
   spec = spec.queryStringParameters || {}
   console.log('spec is ', spec)
 

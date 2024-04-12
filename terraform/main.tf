@@ -9,6 +9,14 @@ data "aws_iam_policy" "AmazonDynamoDBReadOnlyAccess" {
   arn = "arn:aws:iam::aws:policy/AmazonDynamoDBReadOnlyAccess"
 }
 
+resource "random_string" "apiKey" {
+  length  = 16
+  special = false
+}
+
+output "api_key" {
+  value = random_string.apiKey.result
+}
 
 provider "aws" {
   region = "eu-west-1"
@@ -17,11 +25,11 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "trees-terraform"
-    key = "state"
+    key    = "state"
     region = "eu-west-1"
   }
 }
 
-output "awsRegion"  {
+output "awsRegion" {
   value = data.aws_region.current.name
 }

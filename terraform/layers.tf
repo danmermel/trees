@@ -10,7 +10,7 @@ resource "aws_s3_object" "apiLayerZipObject" {
   bucket = aws_s3_bucket.treesLambdaCode.id
   key    = "nodejs-${terraform.workspace}.zip"
   source = data.archive_file.apiLayerZip.output_path
-  etag   = filemd5(data.archive_file.apiLayerZip.output_path)
+  source_hash   = filemd5(data.archive_file.apiLayerZip.output_path)
 }
 
 # create the nodejs layer for the API
