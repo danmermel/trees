@@ -77,3 +77,33 @@ module "getTree" {
 output "getTreeFunctionUrl" {
   value = module.getTree.url
 }
+
+
+
+module "getBySpecies" {
+  source        = "./modules/apicall"
+  function_name = "getbyspecies"
+  role          = aws_iam_role.treesLambdaRole.arn
+  table         = aws_dynamodb_table.treesDb.name
+  layer         = aws_lambda_layer_version.treesLambdaLayer.arn
+  api_key       = random_string.apiKey.result
+}
+
+
+output "getBySpeciesFunctionUrl" {
+  value = module.getBySpecies.url
+}
+
+module "getByGeo" {
+  source        = "./modules/apicall"
+  function_name = "getbygeo"
+  role          = aws_iam_role.treesLambdaRole.arn
+  table         = aws_dynamodb_table.treesDb.name
+  layer         = aws_lambda_layer_version.treesLambdaLayer.arn
+  api_key       = random_string.apiKey.result
+}
+
+
+output "getByGeoFunctionUrl" {
+  value = module.getByGeo.url
+}
