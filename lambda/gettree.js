@@ -34,7 +34,9 @@ const handler = async function (spec) {
       Key: {
         pk,
         sk
-      }
+      },
+        ProjectionExpression:['locationName', 'locationDescription', 'species', 'treeId','latitude', 'longitude','datePlanted', 'geohash']
+
     };
     
     // Fetch the document from DynamoDB
@@ -46,6 +48,7 @@ const handler = async function (spec) {
     //console.log("response is ", JSON.stringify(response))
 
   } catch (e) {
+    console.log(e)
     return { statusCode: 500, body: `{"ok": false, "message":"Query Failed"}` }
   }
   return { statusCode: 200, body: `{"ok": true, "tree":${JSON.stringify(response.Item)}}` }

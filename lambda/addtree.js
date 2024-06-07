@@ -64,8 +64,8 @@ const handler = async function (spec) {
   console.log('spec is ', spec)
 
   // check data
-  if (!spec.sponsor || !spec.treeId || !spec.lat ||
-    !spec.long || !spec.species || !spec.locationDescription ||
+  if (!spec.sponsor || !spec.treeId || !spec.latitude ||
+    !spec.longitude || !spec.species || !spec.locationDescription ||
     !spec.locationName || !spec.datePlanted) {
 
     return { statusCode: 400, body: `{"ok": false, "message": "Missing Parameters"}` }
@@ -73,9 +73,9 @@ const handler = async function (spec) {
   }
 
   // create dynamodb object
-  spec.lat = parseFloat(spec.lat)
-  spec.long = parseFloat(spec.long)
-  const g = encode(spec.lat, spec.long, 5)
+  spec.latitude = parseFloat(spec.latitude)
+  spec.longitude = parseFloat(spec.longitude)
+  const g = encode(spec.latitude, spec.longitude, 5)
 
   item = {
     pk: `sponsor#${spec.sponsor}`,
@@ -87,8 +87,8 @@ const handler = async function (spec) {
     locationName: spec.locationName,
     dateplanted: spec.datePlanted,
     sponsor: spec.sponsor,
-    lat: spec.lat,
-    long: spec.long,
+    latitude: spec.latitude,
+    longitude: spec.longitude,
     geohash: g,
     GSI1PK: `species#${spec.species}`,
     GSI1SK: `#date#${spec.datePlanted.substr(0, 10)}`,
