@@ -30,7 +30,8 @@ const handler = async function (spec) {
       TableName: TABLE,
       KeyConditions: {
         pk: { ComparisonOperator: 'EQ', AttributeValueList: [`sponsor#${spec.sponsor}`] }
-      }
+      },
+      ProjectionExpression: ['locationName', 'locationDescription', 'species', 'treeId', 'latitude', 'longitude', 'datePlanted', 'geohash']
     }
 
     const response = await documentClient.query(req).promise()

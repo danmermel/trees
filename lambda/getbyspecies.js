@@ -32,7 +32,9 @@ const handler = async function (spec) {
       IndexName: 'gsi1',
       KeyConditions: {
         GSI1PK: { ComparisonOperator: 'EQ', AttributeValueList: [`species#${spec.species}`] }
-      }
+      },
+      ProjectionExpression: ['locationName', 'locationDescription', 'species', 'treeId', 'latitude', 'longitude', 'datePlanted', 'geohash']
+
     }
     const response = await documentClient.query(req).promise()
 

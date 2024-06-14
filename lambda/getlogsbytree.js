@@ -29,7 +29,8 @@ const handler = async function (spec) {
       TableName: TABLE,
       KeyConditions: {
         pk: { ComparisonOperator: 'EQ', AttributeValueList: [`treeId#${spec.treeId}`] }
-      }
+      },
+      ProjectionExpression: [ 'treeId', 'sponsor', 'logDate', 'logDescription']
     }
 
     const response = await documentClient.query(req).promise()

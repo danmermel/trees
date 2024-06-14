@@ -25,7 +25,7 @@ const handler = async function (spec) {
 
   const pk = `sponsor#${spec.sponsor}`
   const sk = `#treeId#${spec.treeId}`
-  let response 
+  let response
 
   try {
 
@@ -35,10 +35,9 @@ const handler = async function (spec) {
         pk,
         sk
       },
-        ProjectionExpression:['locationName', 'locationDescription', 'species', 'treeId','latitude', 'longitude','datePlanted', 'geohash']
-
+      ProjectionExpression: ['locationName', 'locationDescription', 'species', 'treeId', 'latitude', 'longitude', 'datePlanted', 'geohash']
     };
-    
+
     // Fetch the document from DynamoDB
     response = await documentClient.get(req).promise()
     if (!response.Item) {

@@ -16,9 +16,9 @@ const handler = async function (spec) {
   //console.log('spec is ', spec)
 
   // check data
-  if (!spec.geoHash) {
+  if (!spec.geohash) {
 
-    return { statusCode: 400, body: `{"ok": false, "message": "Missing geoHash parameter"}` }
+    return { statusCode: 400, body: `{"ok": false, "message": "Missing geohash parameter"}` }
 
   }
 
@@ -31,8 +31,9 @@ const handler = async function (spec) {
       TableName: TABLE,
       IndexName: 'gsi2',
       KeyConditions: {
-        GSI2PK: { ComparisonOperator: 'EQ', AttributeValueList: [`geo#${spec.geoHash}`] }
-      }
+        GSI2PK: { ComparisonOperator: 'EQ', AttributeValueList: [`geo#${spec.geohash}`] }
+      },
+      ProjectionExpression: ['locationName', 'locationDescription', 'species', 'treeId', 'latitude', 'longitude', 'datePlanted', 'geohash']
     }
     const response = await documentClient.query(req).promise()
 
