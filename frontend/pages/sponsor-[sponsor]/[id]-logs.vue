@@ -3,31 +3,33 @@
 const route = useRoute();
 const id = route.params.id;
 const sponsor = route.params.sponsor;
-const tree = ref(0);
+const log = ref(0);
 
 if (id && sponsor) {
   try {
     //  fetch the tree from the API
     //console.log('API', '/get', `${apiHome}/api/get`)
     const r = await useFetch(
-      `https://yhth4m7iirn5rxxxcy6ihfiwze0xallq.lambda-url.eu-west-1.on.aws/`,
+      "https://ouc4we3e2getpyfnnq24uytr5m0cexds.lambda-url.eu-west-1.on.aws/",
       {
         query: {
-          treeId: id,
-          sponsor: sponsor,
+          treeId: id
         },
         method: "get",
       }
     );
-    tree.value = r.data.value.tree;
+    console.log('response', r)
+    log.value = r.data.value
+    //tree.value = r.data.value.tree;
   } catch (e) {
     console.error("failed to fetch trees", e);
   }
 }
 </script>
 <template>
-  <h2>Tree Record</h2>
-  <v-table>
+  <h2>Tree Logs</h2>
+  {{ log }}
+  <!--<v-table>
     <thead>
       <tr>
         <th class="text-left">
@@ -70,5 +72,5 @@ if (id && sponsor) {
 
     </tbody>
   </v-table>
-  <NuxtLink :to="route.path+'-logs'">View Logs</NuxtLink>
+  <NuxtLink :to="id+'/logs'">View Logs</NuxtLink>-->
 </template>
