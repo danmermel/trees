@@ -85,7 +85,7 @@ const handler = async function (spec) {
     species: spec.species,
     locationDescription: spec.locationDescription,
     locationName: spec.locationName,
-    dateplanted: spec.datePlanted,
+    datePlanted: spec.datePlanted,
     sponsor: spec.sponsor,
     latitude: spec.latitude,
     longitude: spec.longitude,
