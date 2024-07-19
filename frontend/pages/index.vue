@@ -4,9 +4,9 @@
   sponsor.value = ''
 
   const viewSponsor = async () => {
-    console.log('View sponsor!!')
-    console.log(sponsor.value)
-    router.push({ path: `/sponsor-${sponsor.value}` })
+    if (sponsor.value.length > 0) {
+      router.push({ path: `/sponsor-${sponsor.value}` })
+    }
   }
 
 </script>
