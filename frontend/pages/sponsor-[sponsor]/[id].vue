@@ -41,7 +41,7 @@ if (id && sponsor) {
     <tbody>
       <tr>
         <td>Sponsor</td>
-        <td>{{ sponsor }}</td>
+        <td><NuxtLink :to="route.path.replace(/\/[^\/]+$/,'')">{{ sponsor }}</NuxtLink></td>
       </tr>
       <tr>
         <td>TreeId</td>

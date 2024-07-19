@@ -1,8 +1,70 @@
+<script setup>
+// composables
+const route = useRoute();
+const sponsor = route.params.sponsor;
+const trees = ref(0);
 
-<script>
-
+if (sponsor) {
+  try {
+    //  fetch the tree from the API
+    //console.log('API', '/get', `${apiHome}/api/get`)
+    const r = await useFetch(
+      "https://h5icctcliigbuvnttk5hjmw7ne0fpuys.lambda-url.eu-west-1.on.aws",
+      {
+        query: {
+          sponsor: sponsor
+        },
+        method: "get",
+      }
+    );
+    console.log('response', r)
+    trees.value = r.data.value.trees
+    // logs.value.sort(function(a, b){
+    //   if ( b.logDate < a.logDate) {
+    //     return -1
+    //   } else if (b.logDate > a.logDate) {
+    //     return 1
+    //   } else {
+    //     return 0
+    //   }
+    // }
+    //tree.value = r.data.value.tree;
+  } catch (e) {
+    console.error("failed to fetch trees", e);
+  }
+}
 </script>
 
 <template>
-    This is where we put all the trees for one sponsor
+  <h2>Treess - for {{ sponsor }}</h2>
+  <v-table>
+    <thead>
+      <tr>
+        <th class="text-left">
+          TreeId
+        </th>
+        <th class="text-left">
+          Species
+        </th>
+        <th class="text-left">
+          Date Planted
+        </th>
+        <th class="text-left">
+          Location
+        </th>
+        <th class="text-left">
+          Lat/Long
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="t in trees" :key="t.treeId">
+        <td><NuxtLink :to="route.path + '/' + t.treeId">{{ t.treeId }}</NuxtLink></td>
+        <td>{{ t.species }}</td>
+        <td>{{ t.datePlanted }}</td>
+        <td>{{ t.locationDescription }}, {{ t.locationName }}</td>
+        <td>{{ t.latitude }}, {{ t.longitude }}</td>
+      </tr>
+    </tbody>
+  </v-table>
 </template>

@@ -3,7 +3,7 @@
 const route = useRoute();
 const id = route.params.id;
 const sponsor = route.params.sponsor;
-const log = ref(0);
+const logs = ref(0);
 
 if (id && sponsor) {
   try {
@@ -19,7 +19,16 @@ if (id && sponsor) {
       }
     );
     console.log('response', r)
-    log.value = r.data.value
+    logs.value = r.data.value.logs
+    logs.value.sort(function(a, b){
+      if ( b.logDate < a.logDate) {
+        return -1
+      } else if (b.logDate > a.logDate) {
+        return 1
+      } else {
+        return 0
+      }
+    })
     //tree.value = r.data.value.tree;
   } catch (e) {
     console.error("failed to fetch trees", e);
@@ -27,50 +36,25 @@ if (id && sponsor) {
 }
 </script>
 <template>
-  <h2>Tree Logs</h2>
-  {{ log }}
-  <!--<v-table>
+  <h2>Tree Logs - for tree {{ sponsor }} / {{ id }}</h2>
+  
+  <v-table>
     <thead>
       <tr>
         <th class="text-left">
-          Field
+          Date
         </th>
         <th class="text-left">
-          Value
+          Description
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Sponsor</td>
-        <td>{{ sponsor }}</td>
+      <tr v-for="l in logs" :key="l.logDate">
+        <td>{{ l.logDate }}</td>
+        <td>{{ l.logDescription }}</td>
       </tr>
-      <tr>
-        <td>TreeId</td>
-        <td>{{ id }}</td>
-      </tr>
-      <tr>
-        <td>Species</td>
-        <td>{{ tree.species }}</td>
-      </tr>
-      <tr>
-        <td>Date Planted</td>
-        <td>{{ tree.datePlanted }}</td>
-      </tr>
-      <tr>
-        <td>Location (lat/long)</td>
-        <td>{{ tree.latitude }} / {{ tree.longitude }}</td>
-      </tr>
-      <tr>
-        <td>Location Name</td>
-        <td>{{ tree.locationName }}</td>
-      </tr>
-      <tr>
-        <td>Location Description</td>
-        <td>{{ tree.locationDescription }}</td>
-      </tr>
-
     </tbody>
   </v-table>
-  <NuxtLink :to="id+'/logs'">View Logs</NuxtLink>-->
+  <NuxtLink :to="route.path.replace(/-logs$/,'')">View Tree</NuxtLink>
 </template>
