@@ -60,10 +60,10 @@ if (sponsor) {
     <tbody>
       <tr v-for="t in trees" :key="t.treeId">
         <td><NuxtLink :to="route.path + '/' + t.treeId">{{ t.treeId }}</NuxtLink></td>
-        <td>{{ t.species }}</td>
+        <td><NuxtLink :to="`/species/${t.species}`">{{ t.species }}</NuxtLink></td>
         <td>{{ t.datePlanted }}</td>
         <td>{{ t.locationDescription }}, {{ t.locationName }}</td>
-        <td>{{ t.latitude }}, {{ t.longitude }}</td>
+        <td><NuxtLink :to="`/geo/${t.geohash}`">{{ t.latitude }}, {{ t.longitude }}</NuxtLink></td>
       </tr>
     </tbody>
   </v-table>

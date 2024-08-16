@@ -21,7 +21,7 @@ if (id && sponsor) {
     );
     tree.value = r.data.value.tree;
   } catch (e) {
-    console.error("failed to fetch trees", e);
+    console.error("failed to fetch tree", e);
   }
 }
 </script>
@@ -49,7 +49,7 @@ if (id && sponsor) {
       </tr>
       <tr>
         <td>Species</td>
-        <td>{{ tree.species }}</td>
+        <td><NuxtLink :to="`/species/${tree.species}`">{{ tree.species }}</NuxtLink></td>
       </tr>
       <tr>
         <td>Date Planted</td>
@@ -57,7 +57,7 @@ if (id && sponsor) {
       </tr>
       <tr>
         <td>Location (lat/long)</td>
-        <td>{{ tree.latitude }} / {{ tree.longitude }}</td>
+        <td><NuxtLink :to="`/geo/${tree.geohash}`">{{ tree.latitude }} / {{ tree.longitude }}</NuxtLink></td>
       </tr>
       <tr>
         <td>Location Name</td>
