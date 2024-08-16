@@ -23,9 +23,10 @@
 </script>
 
 <template>
+    <h2>Species - {{ id }}</h2>
     <v-list>
     <v-list-item v-for="tree in trees" :key="tree.treeId+tree.sponsor" :to="`/sponsor-${tree.sponsor}/${tree.treeId}`">
-      <v-list-item-title>Sponsor: {{  tree.sponsor }} (Tree Id:{{ tree.treeId }})</v-list-item-title>
+      <v-list-item-title>{{  tree.sponsor }} / {{ tree.treeId }}</v-list-item-title>
       <v-list-item-subtitle>Date Planted: {{ tree.datePlanted }}
       </v-list-item-subtitle>
       <template v-slot:append>

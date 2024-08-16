@@ -60,6 +60,10 @@ if (id && sponsor) {
         <td><NuxtLink :to="`/geo/${tree.geohash}`">{{ tree.latitude }} / {{ tree.longitude }}</NuxtLink></td>
       </tr>
       <tr>
+        <td>Map</td>
+        <td><a :href="`https://www.google.com/maps/search/?api=1&query=${tree.latitude},${tree.longitude}`" target="_new">View Map</a></td>
+      </tr>
+      <tr>
         <td>Location Name</td>
         <td>{{ tree.locationName }}</td>
       </tr>

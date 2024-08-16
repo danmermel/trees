@@ -35,7 +35,10 @@ export default defineNuxtConfig({
     'vuetify/lib/styles/main.sass',
     "@mdi/font/css/materialdesignicons.css",
   ],
+
   build: {
     transpile: ['vuetify']
   },
+
+  compatibilityDate: '2024-08-16',
 });
