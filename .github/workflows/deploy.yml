@@ -16,6 +16,7 @@ jobs:
           node-version: "20"
       # Pick your own package manager and build script
       - run: cd frontend
+      - run: ls
       - run: npm install
       - run: NUXT_APP_BASE_URL=/trees/ npx nuxt build --preset github_pages
       - name: Upload artifact
