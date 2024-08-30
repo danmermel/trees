@@ -107,3 +107,17 @@ module "getByGeo" {
 output "getByGeoFunctionUrl" {
   value = module.getByGeo.url
 }
+
+module "addSpecies" {
+  source        = "./modules/apicall"
+  function_name = "addspecies"
+  role          = aws_iam_role.treesLambdaRole.arn
+  table         = aws_dynamodb_table.treesDb.name
+  layer         = aws_lambda_layer_version.treesLambdaLayer.arn
+  api_key       = random_string.apiKey.result
+}
+
+
+output "addSpeciesFunctionUrl" {
+  value = module.addSpecies.url
+}
