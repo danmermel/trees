@@ -49,7 +49,7 @@ if (id && sponsor) {
       </tr>
       <tr>
         <td>Species</td>
-        <td><NuxtLink :to="`/species/${tree.species}`">{{ tree.species }}</NuxtLink></td>
+        <td>{{ tree.species }} <NuxtLink :to="`/species/${tree.species}`">(See other trees of this species)</NuxtLink> <NuxtLink :to="`/species-data/${tree.species}`">(See information for this species)</NuxtLink></td>
       </tr>
       <tr>
         <td>Date Planted</td>
