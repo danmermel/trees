@@ -16,8 +16,8 @@
       </template>
       <v-app-bar-title @click="navigateTo('/')">Tree Bank</v-app-bar-title>
       <template v-slot:append>
-        <!-- <v-btn v-if="route.name === 'index'" icon="mdi-plus" @click="navigateTo('/add')"></v-btn>
-        <v-btn v-if="route.name !== 'index'" icon="mdi-chevron-left" @click="navigateTo('/')"></v-btn> -->
+        <v-btn icon="mdi-plus" @click="navigateTo('/add')"></v-btn>
+        <!-- <v-btn v-if="route.name !== 'index'" icon="mdi-chevron-left" @click="navigateTo('/')"></v-btn> -->
       </template>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" location="left">
@@ -30,6 +30,7 @@
     </v-navigation-drawer>
     <v-main>
       <v-container fluid>
+        <Alert></Alert>
         <slot />
       </v-container>
     </v-main>
