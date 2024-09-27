@@ -5,12 +5,23 @@ if (!apiKey) {
   await navigateTo("/settings");
 }
 
+const generateid = function () {
+  //this is a simple randomness generator.. assuming that the probability of generatign the same id twice is tiny
+  const chars = "ABCDEFGHJKLMNPQRTUVWXYZ2346789";
+  let treeid = "";
+  for (var i = 0; i < 6; i++) {
+    let nextchar = Math.floor(Math.random() * chars.length);
+    treeid = treeid + chars[nextchar];
+  }
+  return treeid;
+};
+
 // composables
 const alert = useAlert();
 
 //variables
 const treeid = ref(0);
-treeid.value = "";
+treeid.value = generateid();
 const species = ref(1);
 species.value = "";
 const latitude = ref(2);
@@ -23,12 +34,19 @@ const locationName = ref(5);
 locationName.value = "";
 const locationDescription = ref(6);
 locationDescription.value = "";
-const processing= ref(7)
-processing.value = false
+const processing = ref(7);
+processing.value = false;
+const datePlanted = ref(8);
+datePlanted.value = new Date(); //.toISOString() //.substring(0,10)
+const isPicking = ref(9);
+isPicking.value = false;
+const fetchinglatlong = ref(10);
+fetchinglatlong.value = false;
 
 function getLocation() {
   if (navigator && navigator.geolocation) {
-    console.log("fetching location");
+    //console.log("fetching location");
+    fetchinglatlong.value = true;
     navigator.geolocation.getCurrentPosition(showPosition);
   } else {
     console.log("Geolocation is not supported by this browser.");
@@ -38,18 +56,25 @@ function getLocation() {
 function showPosition(position) {
   latitude.value = position.coords.latitude;
   longitude.value = position.coords.longitude;
-  console.log(
-    "Latitude: " +
-      position.coords.latitude +
-      "Longitude: " +
-      position.coords.longitude
-  );
+  //   console.log(
+  //     "Latitude: " +
+  //       position.coords.latitude +
+  //       "Longitude: " +
+  //       position.coords.longitude
+  //   );
+  setTimeout(function () {
+    fetchinglatlong.value = false;
+  }, 500);
+}
+
+function showpicker() {
+  isPicking.value = true;
 }
 
 const add = async function () {
   try {
     //  add tree
-    processing.value = true
+    processing.value = true;
     const r = await useFetch(
       `https://whuoepm55me6lmx6dyonsdim3i0xiowx.lambda-url.eu-west-1.on.aws/`,
       {
@@ -61,7 +86,7 @@ const add = async function () {
           locationDescription: locationDescription.value,
           locationName: locationName.value,
           treeId: treeid.value,
-          datePlanted: new Date().toISOString(),
+          datePlanted: datePlanted.value,
           apiKey: apiKey,
         },
         method: "get",
@@ -71,16 +96,23 @@ const add = async function () {
     // create alert
     alert.value.ts = new Date().getTime();
     alert.value.message = "Added new Tree";
-    treeid.value="" // clear out tree id to prevent multiple submissions with same id
+    treeid.value = generateid(); // generate a new id
+    datePlanted.value = new Date().toISOString().substring(0, 10); // refresh the date
   } catch (e) {
     console.error("failed to add tree", e);
   }
-  processing.value = false
+  processing.value = false;
 };
 
 setInterval(getLocation, 10000);
 getLocation();
 </script>
+
+<style scoped>
+  .active {
+    background-color: yellow;
+  }
+</style>
 
 <template>
   <h2>Add tree</h2>
@@ -90,8 +122,26 @@ getLocation();
     label="Species"
     :items="['oak', 'beech', 'ash']"
   ></v-select>
-  <v-text-field v-model="latitude" label="Latitude" readonly></v-text-field>
-  <v-text-field v-model="longitude" label="Longitude" readonly></v-text-field>
+  <v-text-field v-model="latitude" label="Latitude" readonly :class="{ active: fetchinglatlong }"></v-text-field>
+  <v-text-field v-model="longitude" label="Longitude" readonly :class="{ active: fetchinglatlong }"></v-text-field>
+  <v-row>
+    <v-col>
+      <v-text-field
+        v-model="datePlanted"
+        label="Date Planted"
+        readonly
+      ></v-text-field>
+    </v-col>
+    <v-col>
+      <v-btn @click="showpicker">Change</v-btn>
+    </v-col>
+  </v-row>
+  <v-date-picker
+    v-model="datePlanted"
+    v-if="isPicking"
+    elevation="24"
+    @update:modelValue="isPicking = false"
+  ></v-date-picker>
   <v-text-field v-model="sponsor" label="Sponsor"></v-text-field>
   <v-text-field v-model="locationName" label="Location Name"></v-text-field>
   <v-text-field
@@ -105,6 +155,7 @@ getLocation();
       sponsor === '' ||
       locationName === '' ||
       locationDescription === '' ||
+      datePlanted === '' ||
       processing
     "
     type="button"
