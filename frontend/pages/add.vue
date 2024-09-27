@@ -71,10 +71,22 @@ function showpicker() {
   isPicking.value = true;
 }
 
+function formatDate(d) {
+  let retval = ""
+  let year = d.getFullYear()
+  let month = (d.getMonth()+1).toString().padStart(2,"0")  //add leading zeroes if needed
+  let day = d.getDate().toString().padStart(2,"0")
+  retval = year + "-" + month + "-" + day
+  console.log("retval is ", retval)
+  return retval
+
+}
 const add = async function () {
   try {
     //  add tree
     processing.value = true;
+    console.log("date planted is", datePlanted.value)
+    const formatteddate = formatDate(datePlanted.value)
     const r = await useFetch(
       `https://whuoepm55me6lmx6dyonsdim3i0xiowx.lambda-url.eu-west-1.on.aws/`,
       {
@@ -86,7 +98,7 @@ const add = async function () {
           locationDescription: locationDescription.value,
           locationName: locationName.value,
           treeId: treeid.value,
-          datePlanted: datePlanted.value,
+          datePlanted: formatteddate,
           apiKey: apiKey,
         },
         method: "get",
@@ -97,7 +109,6 @@ const add = async function () {
     alert.value.ts = new Date().getTime();
     alert.value.message = "Added new Tree";
     treeid.value = generateid(); // generate a new id
-    datePlanted.value = new Date().toISOString().substring(0, 10); // refresh the date
   } catch (e) {
     console.error("failed to add tree", e);
   }
