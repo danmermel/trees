@@ -42,6 +42,23 @@ const isPicking = ref(9);
 isPicking.value = false;
 const fetchinglatlong = ref(10);
 fetchinglatlong.value = false;
+const specieslist = ref(11)
+specieslist.value = []
+
+try {
+    //  fetch the species list from the API
+    //console.log('API', '/get', `${apiHome}/api/get`)
+    const r = await useFetch(
+      `https://g3dmido2bf3zjb2rqrceql5lty0gqsww.lambda-url.eu-west-1.on.aws/`,
+      {
+        method: "get"
+      }
+    );
+    specieslist.value = r.data.value.species;
+  } catch (e) {
+    console.error("failed to fetch species", e);
+  }
+
 
 function getLocation() {
   if (navigator && navigator.geolocation) {
@@ -131,7 +148,7 @@ getLocation();
   <v-select
     v-model="species"
     label="Species"
-    :items="['oak', 'beech', 'ash']"
+    :items="specieslist"
   ></v-select>
   <v-text-field v-model="latitude" label="Latitude" readonly :class="{ active: fetchinglatlong }"></v-text-field>
   <v-text-field v-model="longitude" label="Longitude" readonly :class="{ active: fetchinglatlong }"></v-text-field>
