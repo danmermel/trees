@@ -1,5 +1,7 @@
+
 <script setup>
   // composables
+  //this page shows all the trees for a single species
   const route = useRoute()
   const id = route.params.id
   const trees = ref(0)
