@@ -149,3 +149,31 @@ module "getSpeciesList" {
 output "getSpeciesListFunctionUrl" {
   value = module.getSpeciesList.url
 }
+
+module "addSponsor" {
+  source        = "./modules/apicall"
+  function_name = "addsponsor"
+  role          = aws_iam_role.treesLambdaRole.arn
+  table         = aws_dynamodb_table.treesDb.name
+  layer         = aws_lambda_layer_version.treesLambdaLayer.arn
+  api_key       = random_string.apiKey.result
+}
+
+
+output "addSponsorFunctionUrl" {
+  value = module.addSponsor.url
+}
+
+module "getSponsorsList" {
+  source        = "./modules/apicall"
+  function_name = "getsponsorslist"
+  role          = aws_iam_role.treesLambdaRole.arn
+  table         = aws_dynamodb_table.treesDb.name
+  layer         = aws_lambda_layer_version.treesLambdaLayer.arn
+  api_key       = random_string.apiKey.result
+}
+
+
+output "getSponsorsListFunctionUrl" {
+  value = module.getSponsorsList.url
+}
