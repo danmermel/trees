@@ -1,0 +1,63 @@
+<script setup>
+//first see if there is an API key for adding
+const apiKey = localStorage.getItem("apikey");
+if (!apiKey) {
+  await navigateTo("/settings");
+}
+
+// composables
+const alert = useAlert();
+
+//variables
+const sponsorName = ref(0);
+sponsorName.value = "";
+const sponsorEmail = ref(1);
+sponsorEmail.value = "";
+const processing = ref(3)
+processing.value = false
+
+
+const add = async function () {
+  try {
+    //  add sponsor
+    processing.value = true;
+    const r = await useFetch(
+      `https://qt2nb6tcwkdsbrmgbmxjympevq0gcgqg.lambda-url.eu-west-1.on.aws/`,
+      {
+        query: {
+          sponsorName: sponsorName.value,
+          sponsorEmail: sponsorEmail.value,
+          apiKey: apiKey
+        },
+        method: "get",
+      }
+    );
+    console.log(r.data.value);
+    // create alert
+    alert.value.ts = new Date().getTime();
+    alert.value.message = "Added new Sponsor";
+    await navigateTo("/sponsors")
+    
+
+  } catch (e) {
+    console.error("failed to add sponsor", e);
+  }
+  processing.value = false;
+};
+</script>
+
+<template>
+  <h2>Add Sponsor</h2>
+  <v-text-field v-model="sponsorName" label="Sponsor Name"></v-text-field>
+  <v-text-field v-model="sponsorEmail" label="Sponsor Email"></v-text-field>
+  <v-btn
+    :disabled="
+      sponsorEmail === '' ||
+      sponsorName === '' ||
+      processing
+    "
+    type="button"
+    @click="add()"
+    >Submit</v-btn
+  >
+</template>

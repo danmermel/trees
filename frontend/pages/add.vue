@@ -42,23 +42,41 @@ const isPicking = ref(9);
 isPicking.value = false;
 const fetchinglatlong = ref(10);
 fetchinglatlong.value = false;
-const specieslist = ref(11)
-specieslist.value = []
+const specieslist = ref(11);
+specieslist.value = [];
+const sponsorslist = ref(12);
+sponsorslist.value = [];
 
 try {
-    //  fetch the species list from the API
-    //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(
-      `https://g3dmido2bf3zjb2rqrceql5lty0gqsww.lambda-url.eu-west-1.on.aws/`,
-      {
-        method: "get"
-      }
-    );
-    specieslist.value = r.data.value.species;
-  } catch (e) {
-    console.error("failed to fetch species", e);
-  }
+  //  fetch the species list from the API
+  //console.log('API', '/get', `${apiHome}/api/get`)
+  const r = await useFetch(
+    `https://g3dmido2bf3zjb2rqrceql5lty0gqsww.lambda-url.eu-west-1.on.aws/`,
+    {
+      method: "get",
+    }
+  );
+  specieslist.value = r.data.value.species;
+} catch (e) {
+  console.error("failed to fetch species", e);
+}
 
+try {
+  //  fetch the sponsors list from the API
+  //console.log('API', '/get', `${apiHome}/api/get`)
+  const r = await useFetch(
+    `https://manju6tlrtzcajathxus7r3hmu0muzxd.lambda-url.eu-west-1.on.aws/`,
+    {
+      method: "get",
+      query: {
+        apiKey: apiKey,
+      },
+    }
+  );
+  sponsorslist.value = r.data.value.sponsors;
+} catch (e) {
+  console.error("failed to fetch sponsors", e);
+}
 
 function getLocation() {
   if (navigator && navigator.geolocation) {
@@ -89,21 +107,20 @@ function showpicker() {
 }
 
 function formatDate(d) {
-  let retval = ""
-  let year = d.getFullYear()
-  let month = (d.getMonth()+1).toString().padStart(2,"0")  //add leading zeroes if needed
-  let day = d.getDate().toString().padStart(2,"0")
-  retval = year + "-" + month + "-" + day
-  console.log("retval is ", retval)
-  return retval
-
+  let retval = "";
+  let year = d.getFullYear();
+  let month = (d.getMonth() + 1).toString().padStart(2, "0"); //add leading zeroes if needed
+  let day = d.getDate().toString().padStart(2, "0");
+  retval = year + "-" + month + "-" + day;
+  console.log("retval is ", retval);
+  return retval;
 }
 const add = async function () {
   try {
     //  add tree
     processing.value = true;
-    console.log("date planted is", datePlanted.value)
-    const formatteddate = formatDate(datePlanted.value)
+    console.log("date planted is", datePlanted.value);
+    const formatteddate = formatDate(datePlanted.value);
     const r = await useFetch(
       `https://whuoepm55me6lmx6dyonsdim3i0xiowx.lambda-url.eu-west-1.on.aws/`,
       {
@@ -137,21 +154,27 @@ getLocation();
 </script>
 
 <style scoped>
-  .active {
-    background-color: yellow;
-  }
+.active {
+  background-color: yellow;
+}
 </style>
 
 <template>
   <h2>Add tree</h2>
   <v-text-field v-model="treeid" label="Tree ID"></v-text-field>
-  <v-select
-    v-model="species"
-    label="Species"
-    :items="specieslist"
-  ></v-select>
-  <v-text-field v-model="latitude" label="Latitude" readonly :class="{ active: fetchinglatlong }"></v-text-field>
-  <v-text-field v-model="longitude" label="Longitude" readonly :class="{ active: fetchinglatlong }"></v-text-field>
+  <v-select v-model="species" label="Species" :items="specieslist"></v-select>
+  <v-text-field
+    v-model="latitude"
+    label="Latitude"
+    readonly
+    :class="{ active: fetchinglatlong }"
+  ></v-text-field>
+  <v-text-field
+    v-model="longitude"
+    label="Longitude"
+    readonly
+    :class="{ active: fetchinglatlong }"
+  ></v-text-field>
   <v-row>
     <v-col>
       <v-text-field
@@ -170,7 +193,13 @@ getLocation();
     elevation="24"
     @update:modelValue="isPicking = false"
   ></v-date-picker>
-  <v-text-field v-model="sponsor" label="Sponsor"></v-text-field>
+  <v-select
+    v-model="sponsor"
+    label="Sponsor"
+    :items="sponsorslist"
+    item-title="sponsorName"
+    item-value="id"
+  ></v-select>
   <v-text-field v-model="locationName" label="Location Name"></v-text-field>
   <v-text-field
     v-model="locationDescription"

@@ -36,7 +36,7 @@ if (sponsor) {
 </script>
 
 <template>
-  <h2>Trees - for {{ sponsor }}</h2>
+  <h2>Trees for Sponsor ID {{ sponsor }}</h2>
   <v-table>
     <thead>
       <tr>
