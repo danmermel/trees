@@ -10,7 +10,7 @@
     auth.value.authenticated = true
     auth.value.apiKey = apiKey.value
     localStorage.setItem('apikey', apiKey.value)
-    await navigateTo('/add')
+    await navigateTo('/')
   }
 </script>
 <template>
