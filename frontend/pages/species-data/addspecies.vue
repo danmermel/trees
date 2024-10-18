@@ -1,7 +1,8 @@
 <script setup>
 //first see if there is an API key for adding
-const apiKey = localStorage.getItem("apikey");
-if (!apiKey) {
+const auth = useAuth()
+
+if (!auth.value.authenticated) {
   await navigateTo("/settings");
 }
 
@@ -33,7 +34,7 @@ const add = async function () {
           species: formatName(species.value),
           speciesDescription: speciesDescription.value,
           speciesCareData: speciesCareData.value,
-          apiKey: apiKey
+          apiKey: auth.value.apiKey
         },
         method: "get",
       }

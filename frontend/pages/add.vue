@@ -1,7 +1,9 @@
 <script setup>
 //first see if there is an API key for adding
-const apiKey = localStorage.getItem("apikey");
-if (!apiKey) {
+const auth = useAuth()
+
+if (!auth.value.authenticated) {
+  console.log("not authenticated")
   await navigateTo("/settings");
 }
 
@@ -69,7 +71,7 @@ try {
     {
       method: "get",
       query: {
-        apiKey: apiKey,
+        apiKey: auth.value.apiKey,
       },
     }
   );
@@ -133,7 +135,7 @@ const add = async function () {
           locationName: locationName.value,
           treeId: treeid.value,
           datePlanted: formatteddate,
-          apiKey: apiKey,
+          apiKey: auth.value.apiKey,
         },
         method: "get",
       }

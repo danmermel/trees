@@ -1,11 +1,14 @@
 <script setup>
   // local page items
+  const auth = useAuth()
   const apiKey = ref(0)
   apiKey.value = ''
 
   // methods
   const saveKey = async () => {
-    console.log('saving', apiKey.value)
+    //console.log('saving', apiKey.value)
+    auth.value.authenticated = true
+    auth.value.apiKey = apiKey.value
     localStorage.setItem('apikey', apiKey.value)
     await navigateTo('/add')
   }

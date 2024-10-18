@@ -1,8 +1,9 @@
 <script setup>
 
 //first see if there is an API key for adding
-const apiKey = localStorage.getItem("apikey");
-if (!apiKey) {
+const auth = useAuth()
+
+if (!auth.value.authenticated) {
   await navigateTo("/settings");
 }
 
@@ -18,7 +19,7 @@ sponsors.value = []
       {
         method: "get",
         query: {
-          apiKey: apiKey
+          apiKey: auth.value.apiKey
         }
       }
     );
