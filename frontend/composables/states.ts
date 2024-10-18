@@ -1,2 +1,2 @@
 export const useAlert = () => useState<object>('alert', () => { return {} })
-export const useAuth = () => useState<object>('auth', () => { return { authenticated: false, apiKey: '' } })
+export const useAuth = () => useState<object>('auth', () => { return { authenticated: false, offline: false, apiKey: '' } })

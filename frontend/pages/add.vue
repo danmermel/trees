@@ -51,57 +51,63 @@ sponsorslist.value = [];
 
 //check if we have cached values for sponsors and species
 
-let response = localStorage.getItem("specieslist")
+let response = localStorage.getItem("specieslist");
 if (response) {
   //we have cached values
-  console.log("cached species exist")
-  specieslist.value = JSON.parse(response)
+  console.log("cached species exist");
+  specieslist.value = JSON.parse(response);
 }
 
-response = localStorage.getItem("sponsorslist")
+response = localStorage.getItem("sponsorslist");
 if (response) {
   //we have cached values
-  console.log("cached sponsors exist")
-  sponsorslist.value = JSON.parse(response)
+  console.log("cached sponsors exist");
+  sponsorslist.value = JSON.parse(response);
 }
 
-setTimeout(async function () {
-  // we set a tiny timeout so that the page renders while these API calls are being made
-  try {
-    //  fetch the species list from the API
-    //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(
-      `https://g3dmido2bf3zjb2rqrceql5lty0gqsww.lambda-url.eu-west-1.on.aws/`,
-      {
-        method: "get",
-      }
-    );
-    specieslist.value = r.data.value.species;
-    //write the list to local storage
-    localStorage.setItem("specieslist", JSON.stringify(specieslist.value));
-  } catch (e) {
-    console.error("failed to fetch species", e);
-  }
+// now try to load the lists again, but ONLY if you are not offline
 
-  try {
-    //  fetch the sponsors list from the API
-    //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(
-      `https://manju6tlrtzcajathxus7r3hmu0muzxd.lambda-url.eu-west-1.on.aws/`,
-      {
-        method: "get",
-        query: {
-          apiKey: auth.value.apiKey,
-        },
-      }
-    );
-    sponsorslist.value = r.data.value.sponsors;
-    //write the list to local storage
-    localStorage.setItem("sponsorslist", JSON.stringify(sponsorslist.value));
-  } catch (e) {
-    console.error("failed to fetch sponsors", e);
-  }
-}, 1);
+if (!auth.value.offline) {
+  setTimeout(async function () {
+    // we set a tiny timeout so that the page renders while these API calls are being made
+    try {
+      //  fetch the species list from the API
+      //console.log('API', '/get', `${apiHome}/api/get`)
+      const r = await useFetch(
+        `https://g3dmido2bf3zjb2rqrceql5lty0gqsww.lambda-url.eu-west-1.on.aws/`,
+        {
+          method: "get",
+        }
+      );
+      specieslist.value = r.data.value.species;
+      //write the list to local storage
+      localStorage.setItem("specieslist", JSON.stringify(specieslist.value));
+    } catch (e) {
+      console.error("failed to fetch species", e);
+    }
+
+    try {
+      //  fetch the sponsors list from the API
+      //console.log('API', '/get', `${apiHome}/api/get`)
+      const r = await useFetch(
+        `https://manju6tlrtzcajathxus7r3hmu0muzxd.lambda-url.eu-west-1.on.aws/`,
+        {
+          method: "get",
+          query: {
+            apiKey: auth.value.apiKey,
+          },
+        }
+      );
+      sponsorslist.value = r.data.value.sponsors;
+      //write the list to local storage
+      localStorage.setItem("sponsorslist", JSON.stringify(sponsorslist.value));
+    } catch (e) {
+      console.error("failed to fetch sponsors", e);
+    }
+  }, 1);
+} else {
+  console.log("In offline mode. Not fetching cloud data")
+}
 
 function getLocation() {
   if (navigator && navigator.geolocation) {

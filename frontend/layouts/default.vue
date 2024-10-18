@@ -16,6 +16,9 @@ drawer.value = false;
       </template>
       <v-app-bar-title @click="navigateTo('/')">Tree Bank</v-app-bar-title>
       <template v-slot:append>
+        <v-icon v-if="auth.offline">
+          mdi-cloud-off-outline
+        </v-icon>
         <v-btn icon="mdi-plus" @click="navigateTo('/add')"></v-btn>
         <!-- <v-btn v-if="route.name !== 'index'" icon="mdi-chevron-left" @click="navigateTo('/')"></v-btn> -->
       </template>
@@ -59,6 +62,8 @@ drawer.value = false;
         ></v-list-item>
         <v-list-item v-if="auth.authenticated" prepend-icon="mdi-logout" title="Logout" @click="navigateTo('/logout')"></v-list-item>
         <v-list-item v-if="!auth.authenticated" prepend-icon="mdi-login" title="Login" @click="navigateTo('/settings')"></v-list-item>
+        <v-list-item v-if="auth.authenticated && !auth.offline" prepend-icon="mdi-cloud-off-outline" title="Go Offline" @click="navigateTo('/offline')"></v-list-item>
+        <v-list-item v-if="auth.authenticated && auth.offline" prepend-icon="mdi-cloud-outline" title="Go Online" @click="navigateTo('/online')"></v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main>
