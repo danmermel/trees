@@ -49,7 +49,23 @@ specieslist.value = [];
 const sponsorslist = ref(12);
 sponsorslist.value = [];
 
-setTimeout(async function () { 
+//check if we have cached values for sponsors and species
+
+let response = localStorage.getItem("specieslist")
+if (response) {
+  //we have cached values
+  console.log("cached species exist")
+  specieslist.value = JSON.parse(response)
+}
+
+response = localStorage.getItem("sponsorslist")
+if (response) {
+  //we have cached values
+  console.log("cached sponsors exist")
+  sponsorslist.value = JSON.parse(response)
+}
+
+setTimeout(async function () {
   // we set a tiny timeout so that the page renders while these API calls are being made
   try {
     //  fetch the species list from the API
@@ -61,6 +77,8 @@ setTimeout(async function () {
       }
     );
     specieslist.value = r.data.value.species;
+    //write the list to local storage
+    localStorage.setItem("specieslist", JSON.stringify(specieslist.value));
   } catch (e) {
     console.error("failed to fetch species", e);
   }
@@ -78,6 +96,8 @@ setTimeout(async function () {
       }
     );
     sponsorslist.value = r.data.value.sponsors;
+    //write the list to local storage
+    localStorage.setItem("sponsorslist", JSON.stringify(sponsorslist.value));
   } catch (e) {
     console.error("failed to fetch sponsors", e);
   }
