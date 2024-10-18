@@ -1,9 +1,9 @@
 <script setup>
 //first see if there is an API key for adding
-const auth = useAuth()
+const auth = useAuth();
 
 if (!auth.value.authenticated) {
-  console.log("not authenticated")
+  console.log("not authenticated");
   await navigateTo("/settings");
 }
 
@@ -49,36 +49,39 @@ specieslist.value = [];
 const sponsorslist = ref(12);
 sponsorslist.value = [];
 
-try {
-  //  fetch the species list from the API
-  //console.log('API', '/get', `${apiHome}/api/get`)
-  const r = await useFetch(
-    `https://g3dmido2bf3zjb2rqrceql5lty0gqsww.lambda-url.eu-west-1.on.aws/`,
-    {
-      method: "get",
-    }
-  );
-  specieslist.value = r.data.value.species;
-} catch (e) {
-  console.error("failed to fetch species", e);
-}
+setTimeout(async function () { 
+  // we set a tiny timeout so that the page renders while these API calls are being made
+  try {
+    //  fetch the species list from the API
+    //console.log('API', '/get', `${apiHome}/api/get`)
+    const r = await useFetch(
+      `https://g3dmido2bf3zjb2rqrceql5lty0gqsww.lambda-url.eu-west-1.on.aws/`,
+      {
+        method: "get",
+      }
+    );
+    specieslist.value = r.data.value.species;
+  } catch (e) {
+    console.error("failed to fetch species", e);
+  }
 
-try {
-  //  fetch the sponsors list from the API
-  //console.log('API', '/get', `${apiHome}/api/get`)
-  const r = await useFetch(
-    `https://manju6tlrtzcajathxus7r3hmu0muzxd.lambda-url.eu-west-1.on.aws/`,
-    {
-      method: "get",
-      query: {
-        apiKey: auth.value.apiKey,
-      },
-    }
-  );
-  sponsorslist.value = r.data.value.sponsors;
-} catch (e) {
-  console.error("failed to fetch sponsors", e);
-}
+  try {
+    //  fetch the sponsors list from the API
+    //console.log('API', '/get', `${apiHome}/api/get`)
+    const r = await useFetch(
+      `https://manju6tlrtzcajathxus7r3hmu0muzxd.lambda-url.eu-west-1.on.aws/`,
+      {
+        method: "get",
+        query: {
+          apiKey: auth.value.apiKey,
+        },
+      }
+    );
+    sponsorslist.value = r.data.value.sponsors;
+  } catch (e) {
+    console.error("failed to fetch sponsors", e);
+  }
+}, 1);
 
 function getLocation() {
   if (navigator && navigator.geolocation) {
