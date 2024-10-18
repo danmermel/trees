@@ -51,7 +51,7 @@ sponsors.value = []
         v-for="s in sponsors"
         :key="s.id"
       >
-        <td>{{ s.id }}</td>
+        <td><NuxtLink :to="'/sponsor-'+s.id">{{ s.id }}</NuxtLink></td>
         <td>{{ s.sponsorName }}</td>
         <td>{{ s.sponsorEmail }}</td>
       </tr>
