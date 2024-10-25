@@ -106,7 +106,7 @@ if (!auth.value.offline) {
     }
   }, 1);
 } else {
-  console.log("In offline mode. Not fetching cloud data")
+  console.log("In offline mode. Not fetching cloud data");
 }
 
 function getLocation() {
@@ -152,24 +152,46 @@ const add = async function () {
     processing.value = true;
     console.log("date planted is", datePlanted.value);
     const formatteddate = formatDate(datePlanted.value);
-    const r = await useFetch(
-      `https://whuoepm55me6lmx6dyonsdim3i0xiowx.lambda-url.eu-west-1.on.aws/`,
-      {
-        query: {
-          species: species.value,
-          sponsor: sponsor.value,
-          latitude: latitude.value,
-          longitude: longitude.value,
-          locationDescription: locationDescription.value,
-          locationName: locationName.value,
-          treeId: treeid.value,
-          datePlanted: formatteddate,
-          apiKey: auth.value.apiKey,
-        },
-        method: "get",
+    const treeData = {
+      species: species.value,
+      sponsor: sponsor.value,
+      latitude: latitude.value,
+      longitude: longitude.value,
+      locationDescription: locationDescription.value,
+      locationName: locationName.value,
+      treeId: treeid.value,
+      datePlanted: formatteddate,
+      apiKey: auth.value.apiKey,
+    };
+    if (!auth.value.offline) {
+      console.log("writing to cloud")
+      const r = await useFetch(
+        `https://whuoepm55me6lmx6dyonsdim3i0xiowx.lambda-url.eu-west-1.on.aws/`,
+        {
+          query: treeData,
+          method: "get",
+        }
+      );
+      console.log(r.data.value);
+    } else {  
+      // you are offline so store in local storage
+
+      let offlineTrees = localStorage.getItem("offlinetrees")
+      if (!offlineTrees){
+        //no existing data
+        offlineTrees = []
+      } else {
+        //some data exists, but it is a string, so parse it
+        offlineTrees = JSON.parse(offlineTrees)
       }
-    );
-    console.log(r.data.value);
+
+      // now add the new tree's data
+      console.log("writing locally")
+      offlineTrees.push(treeData)
+      // now make into a string again and write to local storage
+      offlineTrees = JSON.stringify(offlineTrees)
+      localStorage.setItem("offlinetrees", offlineTrees)
+    }
     // create alert
     alert.value.ts = new Date().getTime();
     alert.value.message = "Added new Tree";
