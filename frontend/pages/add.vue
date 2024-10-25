@@ -160,11 +160,11 @@ const add = async function () {
       locationDescription: locationDescription.value,
       locationName: locationName.value,
       treeId: treeid.value,
-      datePlanted: formatteddate,
-      apiKey: auth.value.apiKey,
+      datePlanted: formatteddate
     };
     if (!auth.value.offline) {
       console.log("writing to cloud")
+      treeData.apiKey = auth.value.apiKey
       const r = await useFetch(
         `https://whuoepm55me6lmx6dyonsdim3i0xiowx.lambda-url.eu-west-1.on.aws/`,
         {
@@ -191,6 +191,7 @@ const add = async function () {
       // now make into a string again and write to local storage
       offlineTrees = JSON.stringify(offlineTrees)
       localStorage.setItem("offlinetrees", offlineTrees)
+      auth.value.offlineTreesCount++  //increment counter
     }
     // create alert
     alert.value.ts = new Date().getTime();

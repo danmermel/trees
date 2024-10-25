@@ -16,9 +16,9 @@ drawer.value = false;
       </template>
       <v-app-bar-title @click="navigateTo('/')">Tree Bank</v-app-bar-title>
       <template v-slot:append>
-        <v-icon v-if="auth.offline">
-          mdi-cloud-off-outline
-        </v-icon>
+        <v-badge v-if="auth.offline" color="red" :content="auth.offlineTreesCount">
+          <v-icon>mdi-cloud-off-outline</v-icon>
+        </v-badge>
         <v-btn icon="mdi-plus" @click="navigateTo('/add')"></v-btn>
         <!-- <v-btn v-if="route.name !== 'index'" icon="mdi-chevron-left" @click="navigateTo('/')"></v-btn> -->
       </template>
