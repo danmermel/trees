@@ -23,7 +23,7 @@ species.value = []
 <template>
   <h2>Species List</h2>
   <v-list>
-    <v-list-item v-for="s in species" :to="s">
+    <v-list-item v-for="s in species" :to="`species-data/${s}`">
       {{ s }}
     </v-list-item>
   </v-list>
