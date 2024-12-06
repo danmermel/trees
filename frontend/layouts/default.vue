@@ -9,6 +9,7 @@ const drawer = ref(0);
 drawer.value = false;
 </script>
 <template>
+    <OnlineOffline v-model="auth.offline" />
   <VitePwaManifest />
   <v-app theme="light">
     <v-app-bar density="compact">
@@ -18,11 +19,11 @@ drawer.value = false;
       <v-app-bar-title @click="navigateTo('/')">Tree Bank</v-app-bar-title>
       <template v-slot:append>
         <v-badge
-          v-if="auth.offline"
           color="red"
           :content="auth.offlineTreesCount"
         >
-          <v-icon>mdi-cloud-off-outline</v-icon>
+          <v-btn density="compact" icon="mdi-cloud-off-outline" v-if="auth.offline" @click="navigateTo('/upload')"></v-btn>
+          <v-btn density="compact" icon="mdi-cloud-outline" v-if="!auth.offline" @click="navigateTo('/upload')"></v-btn>
         </v-badge>
         <v-btn icon="mdi-plus" @click="navigateTo('/add')"></v-btn>
         <!-- <v-btn v-if="route.name !== 'index'" icon="mdi-chevron-left" @click="navigateTo('/')"></v-btn> -->
