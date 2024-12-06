@@ -22,7 +22,7 @@ drawer.value = false;
           color="red"
           :content="auth.offlineTreesCount"
         >
-          <v-btn density="compact" icon="mdi-cloud-off-outline" v-if="auth.offline" @click="navigateTo('/upload')"></v-btn>
+          <v-btn density="compact" icon="mdi-cloud-off-outline" v-if="auth.offline"></v-btn>
           <v-btn density="compact" icon="mdi-cloud-outline" v-if="!auth.offline" @click="navigateTo('/upload')"></v-btn>
         </v-badge>
         <v-btn icon="mdi-plus" @click="navigateTo('/add')"></v-btn>
