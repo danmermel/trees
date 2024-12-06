@@ -9,7 +9,6 @@ const drawer = ref(0);
 drawer.value = false;
 </script>
 <template>
-    <OnlineOffline v-model="auth.offline" />
   <VitePwaManifest />
   <v-app theme="light">
     <v-app-bar density="compact">

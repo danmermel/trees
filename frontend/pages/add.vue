@@ -48,6 +48,8 @@ const specieslist = ref(11);
 specieslist.value = [];
 const sponsorslist = ref(12);
 sponsorslist.value = [];
+const offline = ref(13)
+offline.value = false
 
 //check if we have cached values for sponsors and species
 
@@ -214,7 +216,8 @@ getLocation();
 </style>
 
 <template>
-  <h2>Add tree</h2>
+  <OnlineOffline v-model="offline" />
+  <h2>Add tree <v-icon color="yellow" v-if="!offline">mdi-lightning-bolt</v-icon></h2>
   <v-text-field v-model="treeid" label="Tree ID"></v-text-field>
   <v-select v-model="species" label="Species" :items="specieslist"></v-select>
   <v-text-field
