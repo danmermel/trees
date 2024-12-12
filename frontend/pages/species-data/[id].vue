@@ -1,6 +1,8 @@
 <script setup>
 // composables
 const route = useRoute();
+const runtimeConfig = useRuntimeConfig()
+
 const id = route.params.id;
 const species = ref(0);
 species.value = null;
@@ -9,8 +11,7 @@ if (id) {
   try {
     //  fetch the list from the API
     //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(
-      `https://fhtycbg3s7nztnoidxzfu6rfim0rudal.lambda-url.eu-west-1.on.aws/`,
+    const r = await useFetch(runtimeConfig.public.getSingleSpeciesFunctionUrl.value,
       {
         query: {
           species: id,

@@ -2,6 +2,7 @@
 
 //first see if there is an API key for adding
 const auth = useAuth()
+const runtimeConfig = useRuntimeConfig()
 
 if (!auth.value.authenticated) {
   await navigateTo("/settings");
@@ -14,8 +15,7 @@ sponsors.value = []
   try {
     //  fetch the sponsors list from the API
     //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(
-      `https://manju6tlrtzcajathxus7r3hmu0muzxd.lambda-url.eu-west-1.on.aws/`,
+    const r = await useFetch(runtimeConfig.public.getSponsorsListFunctionUrl.value,
       {
         method: "get",
         query: {

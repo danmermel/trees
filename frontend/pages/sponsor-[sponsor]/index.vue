@@ -2,14 +2,15 @@
 // composables
 const route = useRoute();
 const sponsor = route.params.sponsor;
+const runtimeConfig = useRuntimeConfig()
+
 const trees = ref(0);
 
 if (sponsor) {
   try {
-    //  fetch the tree from the API
+    //  fetch the list of trees for sponsor from the API
     //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(
-      "https://h5icctcliigbuvnttk5hjmw7ne0fpuys.lambda-url.eu-west-1.on.aws",
+    const r = await useFetch(runtimeConfig.public.getBySponsorFunctionUrl.value,
       {
         query: {
           sponsor: sponsor
