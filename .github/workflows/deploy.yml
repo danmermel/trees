@@ -25,7 +25,7 @@ jobs:
       # Build API Layer
       - name: Build API Layer
         run: |
-          cd lambda/scripts
+          cd scripts
           ./build_layer.sh prod
 
       # Run terraform deployment
