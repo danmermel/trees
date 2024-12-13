@@ -29,8 +29,13 @@
 
 
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import config from "./config.json"
 
 export default defineNuxtConfig({
+  runtimeConfig: {
+ 
+    public: config
+  },
   experimental: {
     payloadExtraction: false
   },

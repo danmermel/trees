@@ -5,15 +5,38 @@ on:
   push:
     branches:
       - main
-jobs:
+jobs:  
   build:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: corepack enable
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+          terraform_version: 1.10.2   
+      # Build API Layer
+      - name: Build API Layer
+        run: |
+          cd lambda/scripts
+          ./build_layer.sh prod
+
+      # Run terraform deployment
+      - name: Terraform Deployment
+        run: |
+          cd terraform
+          terraform init
+          terraform workspace select prod
+          terraform apply -auto-approve
+          terraform output -json > ../frontend/config.json
+
       # Pick your own package manager and build script
       - run: cd frontend; npm install
       - run: cd frontend; NUXT_APP_BASE_URL=/trees/ npx nuxt build --preset github_pages

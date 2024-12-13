@@ -1,16 +1,17 @@
 <script setup>
 // composables
 const route = useRoute();
+const runtimeConfig = useRuntimeConfig()
+
 const id = route.params.id;
 const sponsor = route.params.sponsor;
 const logs = ref(0);
 
 if (id && sponsor) {
   try {
-    //  fetch the tree from the API
+    //  fetch the logs from the API
     //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(
-      "https://ouc4we3e2getpyfnnq24uytr5m0cexds.lambda-url.eu-west-1.on.aws/",
+    const r = await useFetch(runtimeConfig.public.getLogsByTreeFunctionUrl.value,
       {
         query: {
           treeId: id

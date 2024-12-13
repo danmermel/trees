@@ -1,6 +1,7 @@
 <script setup>
 const auth = useAuth();
 const alert = useAlert();
+const runtimeConfig = useRuntimeConfig()
 
 const disabled = ref(0);
 disabled.value = false;
@@ -17,8 +18,7 @@ const submit = async function () {
     console.log("writing to cloud");
     tree.apiKey = auth.value.apiKey;
     try {
-      const r = await useFetch(
-        `https://whuoepm55me6lmx6dyonsdim3i0xiowx.lambda-url.eu-west-1.on.aws/`,
+      const r = await useFetch(runtimeConfig.public.addTreeFunctionUrl.value,
         {
           query: tree,
           method: "get",

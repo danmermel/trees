@@ -1,6 +1,7 @@
 <script setup>
 //first see if there is an API key for adding
 const auth = useAuth();
+const runtimeConfig = useRuntimeConfig()
 
 if (!auth.value.authenticated) {
   console.log("not authenticated");
@@ -75,8 +76,7 @@ if (!auth.value.offline) {
     try {
       //  fetch the species list from the API
       //console.log('API', '/get', `${apiHome}/api/get`)
-      const r = await useFetch(
-        `https://g3dmido2bf3zjb2rqrceql5lty0gqsww.lambda-url.eu-west-1.on.aws/`,
+      const r = await useFetch(runtimeConfig.public.getSpeciesListFunctionUrl.value,
         {
           method: "get",
         }
@@ -91,8 +91,7 @@ if (!auth.value.offline) {
     try {
       //  fetch the sponsors list from the API
       //console.log('API', '/get', `${apiHome}/api/get`)
-      const r = await useFetch(
-        `https://manju6tlrtzcajathxus7r3hmu0muzxd.lambda-url.eu-west-1.on.aws/`,
+      const r = await useFetch(runtimeConfig.public.getSponsorsListFunctionUrl.value,
         {
           method: "get",
           query: {
@@ -167,8 +166,7 @@ const add = async function () {
     if (!auth.value.offline) {
       console.log("writing to cloud");
       treeData.apiKey = auth.value.apiKey;
-      const r = await useFetch(
-        `https://whuoepm55me6lmx6dyonsdim3i0xiowx.lambda-url.eu-west-1.on.aws/`,
+      const r = await useFetch(runtimeConfig.public.addTreeFunctionUrl.value,
         {
           query: treeData,
           method: "get",

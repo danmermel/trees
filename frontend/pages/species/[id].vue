@@ -3,6 +3,8 @@
   // composables
   //this page shows all the trees for a single species
   const route = useRoute()
+  const runtimeConfig = useRuntimeConfig()
+
   const id = route.params.id
   const trees = ref(0)
 
@@ -10,7 +12,8 @@
     try {
       //  fetch the list from the API
       //console.log('API', '/get', `${apiHome}/api/get`)
-      const r = await useFetch(`https://jrjtzr6cmifv6eq47o7pqsnp440sipjc.lambda-url.eu-west-1.on.aws/`, {
+      const r = await useFetch(runtimeConfig.public.getBySpeciesFunctionUrl.value,
+       {
         query: {
             'species': id
         },

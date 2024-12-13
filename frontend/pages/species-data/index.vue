@@ -1,5 +1,6 @@
 <script setup>
 // composables
+const runtimeConfig = useRuntimeConfig()
 
 const species = ref(0);
 species.value = []
@@ -8,8 +9,7 @@ species.value = []
   try {
     //  fetch the species list from the API
     //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(
-      `https://g3dmido2bf3zjb2rqrceql5lty0gqsww.lambda-url.eu-west-1.on.aws/`,
+    const r = await useFetch(runtimeConfig.public.getSpeciesListFunctionUrl.value,
       {
         method: "get"
       }

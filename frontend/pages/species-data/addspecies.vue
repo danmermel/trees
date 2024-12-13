@@ -1,6 +1,7 @@
 <script setup>
 //first see if there is an API key for adding
 const auth = useAuth()
+const runtimeConfig = useRuntimeConfig()
 
 if (!auth.value.authenticated) {
   await navigateTo("/settings");
@@ -27,8 +28,7 @@ const add = async function () {
   try {
     //  add species
     processing.value = true;
-    const r = await useFetch(
-      `https://wvlwhx7htj5vduujsz5c2tm6pi0ynyiy.lambda-url.eu-west-1.on.aws/`,
+    const r = await useFetch(runtimeConfig.public.addSpeciesFunctionUrl.value,
       {
         query: {
           species: formatName(species.value),

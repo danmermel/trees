@@ -1,6 +1,7 @@
 <script setup>
 //first see if there is an API key for adding
 const auth = useAuth()
+const runtimeConfig = useRuntimeConfig()
 
 if (!auth.value.authenticated) {
   await navigateTo("/settings");
@@ -22,8 +23,7 @@ const add = async function () {
   try {
     //  add sponsor
     processing.value = true;
-    const r = await useFetch(
-      `https://qt2nb6tcwkdsbrmgbmxjympevq0gcgqg.lambda-url.eu-west-1.on.aws/`,
+    const r = await useFetch(runtimeConfig.public.addSponsorFunctionUrl.value,
       {
         query: {
           sponsorName: sponsorName.value,
