@@ -22,6 +22,11 @@ jobs:
         with:
           terraform_wrapper: false
           terraform_version: 1.10.2   
+      # Build API Layer
+      - name: Build API Layer
+        run: |
+          cd lambda/scripts
+          ./build_layer.sh prod
 
       # Run terraform deployment
       - name: Terraform Deployment
