@@ -23,9 +23,9 @@ species.value = []
 <template>
   <h2>Species List</h2>
   <v-list>
-    <v-list-item v-for="s in species" :to="`species-data/${s}`">
+    <v-list-item v-for="s in species" :to="`/species-data/${s}`">
       {{ s }}
     </v-list-item>
   </v-list>
-  <NuxtLink to="addspecies">Add new Species</NuxtLink>
+  <NuxtLink to="/species-data/addspecies">Add new Species</NuxtLink>
 </template>
