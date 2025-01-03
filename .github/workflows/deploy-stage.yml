@@ -1,0 +1,56 @@
+# https://github.com/actions/deploy-pages#usage
+name: Deploy to GitHub Pages
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stage
+jobs:  
+  build:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+          terraform_version: 1.10.2   
+      # Build API Layer
+      - name: Build API Layer
+        run: |
+          cd scripts
+          ./build_layer.sh stage
+
+      # Run terraform deployment
+      - name: Terraform Deployment
+        run: |
+          cd terraform
+          terraform init
+          terraform workspace select stage
+          terraform apply -auto-approve
+          terraform output -json > ../frontend/config.json
+
+      # Pick your own package manager and build script
+      - run: cd frontend; npm install
+      - run: cd frontend; npx nuxt generate
+
+  # Deployment job
+  deploy:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.IONOS_HOST }}
+          username: ${{ secrets.IONOS_USERNAME }}
+          password: ${{ secrets.IONOS_PASSWORD }}
+          source: "frontend/dist/*"
+          target: mermelstein/trees
