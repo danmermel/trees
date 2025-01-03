@@ -50,5 +50,5 @@ jobs:
           host: ${{ secrets.IONOS_HOST }}
           username: ${{ secrets.IONOS_USERNAME }}
           password: ${{ secrets.IONOS_PASSWORD }}
-          source: "frontend/dist/*"
+          source: "frontend/.output/public/*"
           target: mermelstein/trees
