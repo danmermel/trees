@@ -11,14 +11,9 @@ if (!auth.value.authenticated) {
 const alert = useAlert();
 
 //variables
-const species = ref(0);
-species.value = "";
-const speciesDescription = ref(1);
-speciesDescription.value = "";
-const speciesCareData = ref(2);
-speciesCareData.value = "";
-const processing = ref(3)
-processing.value = false
+const species = ref('')
+const speciesDescription = ref('')
+const processing = ref(false)
 
 const formatName = function(str) {
     return str[0].toUpperCase()+str.slice(1)
@@ -33,7 +28,6 @@ const add = async function () {
         query: {
           species: formatName(species.value),
           speciesDescription: speciesDescription.value,
-          speciesCareData: speciesCareData.value,
           apiKey: auth.value.apiKey
         },
         method: "get",
@@ -57,12 +51,10 @@ const add = async function () {
   <h2>Add Species</h2>
   <v-text-field v-model="species" label="Species Name"></v-text-field>
   <v-text-field v-model="speciesDescription" label="Description"></v-text-field>
-  <v-text-field v-model="speciesCareData" label="Care Data"></v-text-field>
   <v-btn
     :disabled="
       species === '' ||
       speciesDescription === '' ||
-      speciesCareData === '' ||
       processing
     "
     type="button"
