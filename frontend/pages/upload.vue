@@ -3,10 +3,8 @@ const auth = useAuth();
 const alert = useAlert();
 const runtimeConfig = useRuntimeConfig()
 
-const disabled = ref(0);
-disabled.value = false;
-const treeCount = ref(1);
-treeCount.value = 0;
+const disabled = ref(false);
+const treeCount = ref(0);
 
 const submit = async function () {
   disabled.value = true;

@@ -23,34 +23,20 @@ const generateid = function () {
 const alert = useAlert();
 
 //variables
-const treeid = ref(0);
-treeid.value = generateid();
-const species = ref(1);
-species.value = "";
-const latitude = ref(2);
-latitude.value = 0;
-const longitude = ref(3);
-longitude.value = 0;
-const sponsor = ref(4);
-sponsor.value = "";
-const locationName = ref(5);
-locationName.value = "";
-const locationDescription = ref(6);
-locationDescription.value = "";
-const processing = ref(7);
-processing.value = false;
-const datePlanted = ref(8);
-datePlanted.value = new Date(); //.toISOString() //.substring(0,10)
-const isPicking = ref(9);
-isPicking.value = false;
-const fetchinglatlong = ref(10);
-fetchinglatlong.value = false;
-const specieslist = ref(11);
-specieslist.value = [];
-const sponsorslist = ref(12);
-sponsorslist.value = [];
-const offline = ref(13)
-offline.value = false
+const treeid = ref(generateid());
+const species = ref('');
+const latitude = ref(0);
+const longitude = ref(0);
+const sponsor = ref('');
+const locationName = ref('');
+const locationDescription = ref('');
+const processing = ref(false);
+const datePlanted = ref(new Date());
+const isPicking = ref(false);
+const fetchinglatlong = ref(false);
+const specieslist = ref([]);
+const sponsorslist = ref([]);
+const offline = ref(false)
 
 //check if we have cached values for sponsors and species
 
