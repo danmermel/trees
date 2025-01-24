@@ -7,6 +7,10 @@ const auth = useAuth();
 // local page items
 const drawer = ref(false);
 
+const runtimeConfig = useRuntimeConfig()
+
+const version = ref(runtimeConfig.public.version)
+
 </script>
 <template>
   <VitePwaManifest />
@@ -104,5 +108,6 @@ const drawer = ref(false);
         <slot />
       </v-container>
     </v-main>
+    <v-footer>{{ version }}</v-footer>
   </v-app>
 </template>
