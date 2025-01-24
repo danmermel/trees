@@ -31,9 +31,6 @@ if (id) {
   <div v-if="species != null">
     <h3>Description</h3>
     <p>{{ species.speciesDescription }}</p>
-
-    <h3>Care Data</h3>
-    <p>{{ species.speciesCareData }}</p>
   </div>
   <h3 v-if="species == null">No species data currently available</h3>
 </template>
