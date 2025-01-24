@@ -4,7 +4,7 @@ const route = useRoute();
 const sponsor = route.params.sponsor;
 const runtimeConfig = useRuntimeConfig()
 
-const trees = ref(0);
+const trees = ref([]);
 
 if (sponsor) {
   try {

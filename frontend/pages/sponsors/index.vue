@@ -8,25 +8,23 @@ if (!auth.value.authenticated) {
   await navigateTo("/settings");
 }
 
-const sponsors = ref(0);
-sponsors.value = []
+const sponsors = ref([]);
 
-
-  try {
-    //  fetch the sponsors list from the API
-    //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(runtimeConfig.public.getSponsorsListFunctionUrl.value,
-      {
-        method: "get",
-        query: {
-          apiKey: auth.value.apiKey
-        }
+try {
+  //  fetch the sponsors list from the API
+  //console.log('API', '/get', `${apiHome}/api/get`)
+  const r = await useFetch(runtimeConfig.public.getSponsorsListFunctionUrl.value,
+    {
+      method: "get",
+      query: {
+        apiKey: auth.value.apiKey
       }
-    );
-    sponsors.value = r.data.value.sponsors;
-  } catch (e) {
-    console.error("failed to fetch sponsors", e);
-  }
+    }
+  );
+  sponsors.value = r.data.value.sponsors;
+} catch (e) {
+  console.error("failed to fetch sponsors", e);
+}
 
 </script>
 <template>

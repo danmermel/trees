@@ -4,8 +4,7 @@ const route = useRoute();
 const runtimeConfig = useRuntimeConfig()
 
 const id = route.params.id;
-const species = ref(0);
-species.value = null;
+const species = ref(null);
 
 if (id) {
   try {
