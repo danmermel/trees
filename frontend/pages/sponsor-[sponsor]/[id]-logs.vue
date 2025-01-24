@@ -6,7 +6,7 @@ const auth = useAuth();
 
 const id = route.params.id;
 const sponsor = route.params.sponsor;
-const logs = ref(0);
+const logs = ref([]);
 const description = ref("");
 const processing = ref(false);
 

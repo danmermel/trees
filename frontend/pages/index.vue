@@ -1,8 +1,7 @@
 <script setup>
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter();
-const sponsor = ref(0);
-sponsor.value = "";
+const sponsor = ref('');
 
 const { $pwa } = useNuxtApp();
 

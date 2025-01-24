@@ -11,13 +11,9 @@ if (!auth.value.authenticated) {
 const alert = useAlert();
 
 //variables
-const sponsorName = ref(0);
-sponsorName.value = "";
-const sponsorEmail = ref(1);
-sponsorEmail.value = "";
-const processing = ref(3)
-processing.value = false
-
+const sponsorName = ref('');
+const sponsorEmail = ref('');
+const processing = ref(false)
 
 const add = async function () {
   try {

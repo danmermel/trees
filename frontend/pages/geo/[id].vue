@@ -4,7 +4,7 @@
   const runtimeConfig = useRuntimeConfig()
 
   const id = route.params.id
-  const trees = ref(0)
+  const trees = ref([])
 
    if (id) {
     try {

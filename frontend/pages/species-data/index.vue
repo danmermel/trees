@@ -2,22 +2,20 @@
 // composables
 const runtimeConfig = useRuntimeConfig()
 
-const species = ref(0);
-species.value = []
+const species = ref([]);
 
-
-  try {
-    //  fetch the species list from the API
-    //console.log('API', '/get', `${apiHome}/api/get`)
-    const r = await useFetch(runtimeConfig.public.getSpeciesListFunctionUrl.value,
-      {
-        method: "get"
-      }
-    );
-    species.value = r.data.value.species;
-  } catch (e) {
-    console.error("failed to fetch species", e);
-  }
+try {
+  //  fetch the species list from the API
+  //console.log('API', '/get', `${apiHome}/api/get`)
+  const r = await useFetch(runtimeConfig.public.getSpeciesListFunctionUrl.value,
+    {
+      method: "get"
+    }
+  );
+  species.value = r.data.value.species;
+} catch (e) {
+  console.error("failed to fetch species", e);
+}
 
 </script>
 <template>
