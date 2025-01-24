@@ -14,7 +14,7 @@ const handler = async function (spec) {
   console.log('spec is ', spec)
 
   // check data
-  if (!spec.speciesDescription || !spec.speciesCareData || !spec.species) {
+  if (!spec.speciesDescription || !spec.species) {
 
     return { statusCode: 400, body: `{"ok": false, "message": "Missing Parameters"}` }
 
@@ -26,8 +26,7 @@ const handler = async function (spec) {
     pk: "species",
     sk: `#${spec.species}`,
     type: "species",
-    speciesDescription: spec.speciesDescription,
-    speciesCareData: spec.speciesCareData
+    speciesDescription: spec.speciesDescription
   }
 
 
