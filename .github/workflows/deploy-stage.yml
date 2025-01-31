@@ -37,6 +37,12 @@ jobs:
           terraform apply -auto-approve
           terraform output -json > ../frontend/config.json
 
+      # Get version
+      - name: Get current version
+        run: |
+          cd scripts
+          ./getversion.sh
+
       # Pick your own package manager and build script
       - name: Generate nuxt artifacts
         run: |

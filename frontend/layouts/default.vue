@@ -7,6 +7,10 @@ const auth = useAuth();
 // local page items
 const drawer = ref(false);
 
+const runtimeConfig = useRuntimeConfig()
+
+const version = ref(runtimeConfig.public.version)
+
 </script>
 <template>
   <VitePwaManifest />
@@ -96,6 +100,9 @@ const drawer = ref(false);
           title="Go Online"
           @click="navigateTo('/online')"
         ></v-list-item>
+        <v-list-item>
+          Version: {{ version }}
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main>
