@@ -100,6 +100,9 @@ const version = ref(runtimeConfig.public.version)
           title="Go Online"
           @click="navigateTo('/online')"
         ></v-list-item>
+        <v-list-item>
+          Version: {{ version }}
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main>
@@ -108,6 +111,5 @@ const version = ref(runtimeConfig.public.version)
         <slot />
       </v-container>
     </v-main>
-    <v-footer>{{ version }}</v-footer>
   </v-app>
 </template>
