@@ -14,6 +14,8 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
@@ -36,6 +38,12 @@ jobs:
           terraform workspace select stage
           terraform apply -auto-approve
           terraform output -json > ../frontend/config.json
+
+      # Get version
+      - name: Get current version
+        run: |
+          cd scripts
+          ./getversion.sh
 
       # Pick your own package manager and build script
       - name: Generate nuxt artifacts
