@@ -30,6 +30,7 @@ if (id) {
   <div v-if="species != null">
     <h3>Description</h3>
     <p>{{ species.speciesDescription }}</p>
+    <NuxtLink :to="`/species-data/${id}-edit`">Edit Species</NuxtLink>
   </div>
   <h3 v-if="species == null">No species data currently available</h3>
 </template>
